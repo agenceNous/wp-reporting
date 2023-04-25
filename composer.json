@@ -1,0 +1,15 @@
+{
+    "name": "agencenous/wp-reporting",
+    "description": "Utility for sending log reports in Wordpress themes & plugins",
+    "type": "wordpress-package",
+    "license": "GPL-3.0-or-later",
+    "version": "0.0.1",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Bastien Ho",
+            "email": "bastien@avecnous.eu"
+        }
+    ],
+    "require": {}
+}
