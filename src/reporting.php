@@ -88,7 +88,7 @@ if(!class_exists('WPReporting\Reporting')) {
          * @param string $project_name
          * @return bool
          */
-        public function send(\Throwable|\Exception $exception, string $project_name) : bool {
+        public function send($exception, string $project_name) : bool {
 
             // Get project
             $project = $this->get_project($project_name);
