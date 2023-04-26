@@ -51,8 +51,6 @@ if(!class_exists('WPReporting\Settings')) {
             $displayed_categories = [];
             register_setting('wp-reporting-settings', $this->option_name);
 
-            
-
             foreach(WPReporting()->get_projects() as $project_name => $project){
                 // Populate defaults from registered projects
                 $this->defaults[$project_name] = $project['default_enabled'];
@@ -62,7 +60,7 @@ if(!class_exists('WPReporting\Settings')) {
                     $displayed_categories[$project['category']] = $project['category'];
                     add_settings_section(
                           'wp-reporting-settings-'.$project['category'], 
-                          $categories[$project['category']], 
+                          __($categories[$project['category']]), 
                           array(&$this, 'settings_section_callback'), 
                           'wp-reporting-settings'
                     );

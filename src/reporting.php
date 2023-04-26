@@ -12,9 +12,9 @@ if(!class_exists('WPReporting\Reporting')) {
             $this->projects = [];
 
             $this->categories = [
-                'main' => __('Main'),
-                'plugin' => __('Plugins'),
-                'theme' => __('Themes'),
+                'main' => 'Main',
+                'plugin' => 'Plugins',
+                'theme' => 'Themes',
             ];
             
             require_once __DIR__.'/settings.php';
