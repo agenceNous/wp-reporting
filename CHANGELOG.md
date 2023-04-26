@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.1
+
+- Accept all types of exceptions (retro compatibility with PHP7.4)
+
 ### 1.1.0
 
 - Add notice when a setting is missing for a project
