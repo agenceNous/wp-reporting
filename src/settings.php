@@ -10,6 +10,7 @@ if(!class_exists('WPReporting\Settings')) {
         var $options;
         var $defaults;
         var $mu = false;
+        var $setting_url;
 
         function __construct(){
             require_once(ABSPATH.'/wp-admin/includes/plugin.php');
@@ -19,6 +20,13 @@ if(!class_exists('WPReporting\Settings')) {
             add_action('admin_post_update', array(&$this, 'update_network_settings') );
 
             $this->defaults = [];
+
+            $this->setting_url = add_query_arg(
+                [
+                    'page' => 'wp-reporting-settings',
+                ],
+                admin_url( $this->mu ? 'network/settings.php' : 'options-general.php' )
+            );
         }
 
         public function get_option($option){
@@ -97,11 +105,10 @@ if(!class_exists('WPReporting\Settings')) {
             $update = $this->update_option(  $this->option_name, $settings);
             wp_redirect(
                 add_query_arg(
-                    array(
-                        'page' => 'wp-reporting-settings',
+                    [
                         'confirm' => $update,
-                    ),
-                    (admin_url( $this->mu ? 'network/settings.php' : 'options-general.php' ))
+                    ],
+                    $this->setting_url
                 )
             );
             exit;
