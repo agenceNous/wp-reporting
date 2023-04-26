@@ -119,11 +119,6 @@ if(!class_exists('WPReporting\Reporting')) {
             $body = $message."\n\n".$json;
             $body = \apply_filters('wp-reporting:send:body', $body);
 
-            print_r([
-                $to, $subject, $body
-            ]);
-            return true;
-
             // Send report by mail
             if(function_exists('wp_mail')){
                 $mail = \wp_mail($to, $subject, $body);
