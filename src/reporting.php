@@ -96,12 +96,9 @@ if(!class_exists('WPReporting\Reporting')) {
                 error_log(sprintf('Try to send report on unfound project: "%s"', $project_name));
                 return false;
             }
-
+            
             $enabled = $this->settings->get($project_name);
-
-            if(!$enabled){
-                return false;
-            }
+            
             
             // Get recipient
             $to = $project['to'];
@@ -118,6 +115,15 @@ if(!class_exists('WPReporting\Reporting')) {
             $message = \apply_filters('wp-reporting:send:message', sprintf('Error in %s', get_option('blog_name')));
             $body = $message."\n\n".$json;
             $body = \apply_filters('wp-reporting:send:body', $body);
+            
+            if(defined('WP_DEBUG') && WP_DEBUG){
+                if(defined('WP_DEBUG_LOG') && WP_DEBUG_LOG){
+                    error_log("Fatal Error ".$subject."\t".json_encode($stack));
+                }
+            }
+            if(!$enabled){
+                return false;
+            }
 
             // Send report by mail
             if(function_exists('wp_mail')){
