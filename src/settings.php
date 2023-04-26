@@ -10,6 +10,7 @@ if(!class_exists('WPReporting\Settings')) {
         var $options;
         var $defaults;
         var $mu = false;
+        var $not_set_projects = [];
         var $setting_url;
 
         function __construct(){
@@ -18,6 +19,7 @@ if(!class_exists('WPReporting\Settings')) {
             add_action(($this->mu ? 'network_' : '').'admin_menu', array(&$this, 'admin_menu'));
             add_action('admin_init', array(&$this, 'admin_init'));
             add_action('admin_post_update', array(&$this, 'update_network_settings') );
+            add_action( 'admin_notices', array(&$this, 'notices'));
 
             $this->defaults = [];
 
@@ -84,6 +86,20 @@ if(!class_exists('WPReporting\Settings')) {
                         $project
                 );
 
+                // Show notice if project is not set
+                if(false === $this->Get($project_name)){
+                    $this->not_set_projects[] = $project;
+                }
+                
+            }
+        }
+
+        function notices(){
+            if(count($this->not_set_projects)){
+                echo '<div class="notice notice-warning is-dismissible">
+                    <p>'.__( 'Missing settings, please tell us if you agree to send reports.').'</p>
+                    <p><a href="'.$this->setting_url.'">'.__('Settings').'</a></p>
+                </div>';
             }
         }
 
@@ -136,16 +152,25 @@ if(!class_exists('WPReporting\Settings')) {
         public function settings_field_enable_callback($args) {
             ?>
             <div>
-            <input type="checkbox" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>" value="1" <?php checked( $this->Get($args['name']), true); ?>/>
-            <?php if (isset($args['description']) && $args['description']): ?>
-                <label for="<?php esc_attr_e($args['name']); ?>">
-                  <?php esc_html_e($args['description']); ?>
-                </label>
-                <label for="<?php esc_attr_e($args['to']); ?>">
+            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-yes" value="1" <?php checked( $this->Get($args['name']), 1); ?>/>
+            <label for="<?php esc_attr_e($args['name']); ?>-yes">
+                <?php _e('Yes'); ?>
+            </label>
+            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-no" value="0" <?php checked( $this->Get($args['name']), 0); ?>/>
+            <label for="<?php esc_attr_e($args['name']); ?>-no">
+                <?php _e('No'); ?>
+            </label>
+            <p>
+                <?php if (isset($args['description']) && $args['description']): ?>
+                    <span class="wp-reporting-desc">
+                    <?php esc_html_e($args['description']); ?>
+                    </span>
+                <?php endif; ?>
+                <div class="wp-reportgin-to">
                    »
                   <?php esc_html_e($args['to']); ?>
-                </label>
-            <?php endif; ?>
+                </div>
+            </p>
             </div>
             <?php
         }
