@@ -78,7 +78,7 @@ if(!class_exists('WPReporting\Reporting')) {
          * @param string $project_name
          * @return array|null
          */
-        public function get_project(string $project_name) : array | null{
+        public function get_project(string $project_name){
             return (isset($this->projects[$project_name]) ? $this->projects[$project_name] : null);
         }
 
