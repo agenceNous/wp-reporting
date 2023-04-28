@@ -7,6 +7,8 @@ if(!class_exists('WPReporting\Reporting')) {
         var $projects;
         var $settings;
         var $categories;
+        var $levels;
+        var $context_levels;
 
         public function __construct() {
             $this->projects = [];
@@ -16,6 +18,19 @@ if(!class_exists('WPReporting\Reporting')) {
                 'plugin' => 'Plugins',
                 'theme' => 'Themes',
             ];
+            
+            $this->levels = [
+                0 => 'Disabled',
+                1 => 'Error',
+                2 => 'Warning',
+            ];
+            
+            $this->context_levels = [
+                0 => 'No',
+                1 => 'Minimal (server environment)',
+                2 => 'Accurate (URL + Version of WordPress, Plugins and Theme)',
+                3 => 'Full (anonymized POST data)',
+            ];         
             
             require_once __DIR__.'/settings.php';
             $this->settings = new Settings();
@@ -36,6 +51,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 'prefix' => $project_name,
                 'default_enabled' => false,
                 'category' => 'main',
+                'max_level' => 1,i9
             ] );
 
             if(!isset($this->categories[$params['category']])){
@@ -63,6 +79,14 @@ if(!class_exists('WPReporting\Reporting')) {
          */
         public function get_categories() : array {
             return $this->categories;
+        }
+        
+        public function get_levels() : array {
+            return $this->levels;
+        }
+        
+        public function get_context_levels() : array {
+            return $this->context_levels;
         }
 
         /**
