@@ -26,7 +26,7 @@ if(!class_exists('WPReporting\Reporting')) {
             ];
             
             $this->context_levels = [
-                0 => 'No',
+                0 => 'No context',
                 1 => 'Minimal (server environment)',
                 2 => 'Accurate (URL + Version of WordPress, Plugins and Theme)',
                 3 => 'Full (anonymized POST data)',

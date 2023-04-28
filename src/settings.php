@@ -114,10 +114,12 @@ if(!class_exists('WPReporting\Settings')) {
             if (!wp_verify_nonce(\filter_input(INPUT_POST, 'wp-reporting-settings'), 'wp-reporting-settings')) {
                 wp_die(__('Sorry, you are not allowed to do that.'));
             }
-            $settings = [];
+            $input_args = [];
             foreach(WPReporting()->get_projects() as $project_name => $project){
-                $settings[$project_name] = (isset($_POST[$this->option_name][$project_name]) && $_POST[$this->option_name][$project_name] == 1 ? true : false);
+                $input_args[$project_name] = FILTER_SANITIZE_INT;
+                $input_args[$project_name.'_context'] = FILTER_SANITIZE_INT;
             }
+            $settings = filter_input_array(I PUT_POST, $input_args);
             $update = $this->update_option(  $this->option_name, $settings);
             wp_redirect(
                 add_query_arg(
@@ -159,6 +161,17 @@ if(!class_exists('WPReporting\Settings')) {
             <?php $level = (int) $level; ?>
                     <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $this->Get($args['name']), $level); ?>/>
                     <label for="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>">
+                        <?php echo $label; ?>
+                    </label>
+                </div>
+            <?php endforeach; ?>
+            </div>
+            <div class="wp-reporting-project-context-levels">
+            <?php foreach($args['context_levels'] as $level => $label): ?>
+                <div class="wp-reporting-context-level">
+            <?php $level = (int) $level; ?>
+                    <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>_context]" id="<?php esc_attr_e($args['name']); ?>-context-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $this->Get($args['name'].'_context'), $level); ?>/>
+                    <label for="<?php esc_attr_e($args['name']); ?>-context-<?php esc_attr_e($level); ?>">
                         <?php echo $label; ?>
                     </label>
                 </div>
