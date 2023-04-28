@@ -51,7 +51,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 'prefix' => $project_name,
                 'default_enabled' => false,
                 'category' => 'main',
-                'max_level' => 1,i9
+                'max_level' => 1,
             ] );
 
             if(!isset($this->categories[$params['category']])){
@@ -68,6 +68,10 @@ if(!class_exists('WPReporting\Reporting')) {
             }
 
             $params['enabled'] = $this->settings->Get($project_name);
+            
+            $params['levels'] = array_slice($this->get_levels(), 0, $params['max_level']);
+            
+            $params['context_levels'] = $this->get_context_levels();
 
             $this->projects[$project_name] = apply_filters('wp-reporting:project:register', $params, $project_name);
             return $this;
@@ -88,7 +92,7 @@ if(!class_exists('WPReporting\Reporting')) {
         public function get_context_levels() : array {
             return $this->context_levels;
         }
-
+        
         /**
          * Get all projects
          * @return array

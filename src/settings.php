@@ -151,15 +151,19 @@ if(!class_exists('WPReporting\Settings')) {
 
         public function settings_field_enable_callback($args) {
             ?>
-            <div>
-            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-0" value="0" <?php checked( $this->Get($args['name']), 0); ?>/>
-            <label for="<?php esc_attr_e($args['name']); ?>-0">
-                <?php _e('No'); ?>
-            </label>
-            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-1" value="1" <?php checked( $this->Get($args['name']), 1); ?>/>
-            <label for="<?php esc_attr_e($args['name']); ?>-1">
-                <?php _e('Yes'); ?>
-            </label>
+        <div class="wp-reporting-project">
+            
+            <div class="wp-reporting-project-levels">
+            <?php foreach($args['levels'] as $level => $label): ?>
+                <div class="wp-reporting-level">
+            <?php $level = (int) $level; ?>
+                    <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $this->Get($args['name']), $level); ?>/>
+                    <label for="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>">
+                        <?php echo $label; ?>
+                    </label>
+                </div>
+            <?php endforeach; ?>
+            </div>
             <p>
                 <?php if (isset($args['description']) && $args['description']): ?>
                     <span class="wp-reporting-desc">
@@ -171,7 +175,7 @@ if(!class_exists('WPReporting\Settings')) {
                   <?php esc_html_e($args['to']); ?>
                 </div>
             </p>
-            </div>
+        </div>
             <?php
         }
     }
