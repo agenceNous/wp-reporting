@@ -152,13 +152,13 @@ if(!class_exists('WPReporting\Settings')) {
         public function settings_field_enable_callback($args) {
             ?>
             <div>
-            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-yes" value="1" <?php checked( $this->Get($args['name']), 1); ?>/>
-            <label for="<?php esc_attr_e($args['name']); ?>-yes">
-                <?php _e('Yes'); ?>
-            </label>
-            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-no" value="0" <?php checked( $this->Get($args['name']), 0); ?>/>
-            <label for="<?php esc_attr_e($args['name']); ?>-no">
+            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-0" value="0" <?php checked( $this->Get($args['name']), 0); ?>/>
+            <label for="<?php esc_attr_e($args['name']); ?>-0">
                 <?php _e('No'); ?>
+            </label>
+            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-1" value="1" <?php checked( $this->Get($args['name']), 1); ?>/>
+            <label for="<?php esc_attr_e($args['name']); ?>-1">
+                <?php _e('Yes'); ?>
             </label>
             <p>
                 <?php if (isset($args['description']) && $args['description']): ?>
