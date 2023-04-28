@@ -125,7 +125,8 @@ if(!class_exists('WPReporting\Reporting')) {
                 return false;
             }
             
-            $enabled = $this->settings->get($project_name);
+            $level = $this->settings->get($project_name);
+            $context_level = $this->settings->get($project_name.'_context');
             
             
             // Get recipient
@@ -149,8 +150,13 @@ if(!class_exists('WPReporting\Reporting')) {
                     error_log("Fatal Error ".$subject."\t".json_encode($stack));
                 }
             }
-            if(!$enabled){
+            if(!$level{
                 return false;
+            }
+            
+            if($level > 1){
+                $server_json = json_encode($_SERVER, JSON_PRETTY_PRINT);
+                $body.="\n\nServer:\n".$server_json;
             }
 
             // Send report by mail
