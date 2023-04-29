@@ -109,6 +109,14 @@ if(!class_exists('WPReporting\Reporting')) {
         public function get_project(string $project_name){
             return (isset($this->projects[$project_name]) ? $this->projects[$project_name] : null);
         }
+        
+        private function wrap_data($data){
+            return json_encode($data, JSON_PRETTY_PRINT);
+        }
+        
+        private function get_context_server(){
+            return $thks->wrap_data($server_json);
+        }
 
         /**
          * Send a report
@@ -154,9 +162,9 @@ if(!class_exists('WPReporting\Reporting')) {
                 return false;
             }
             
-            if($level > 1){
-                $server_json = json_encode($_SERVER, JSON_PRETTY_PRINT);
-                $body.="\n\nServer:\n".$server_json;
+            // Add data for 1rst context level
+            if($context_level > 0){
+                $body.="\n\nServer:\n".$this->get_context_server();
             }
 
             // Send report by mail
