@@ -9,6 +9,7 @@ if(!class_exists('WPReporting\Reporting')) {
         var $categories;
         var $levels;
         var $context_levels;
+        var $sensitive_keys;
 
         public function __construct() {
             $this->projects = [];
@@ -30,7 +31,13 @@ if(!class_exists('WPReporting\Reporting')) {
                 1 => 'Minimal (server environment)',
                 2 => 'Accurate (URL + Version of WordPress, Plugins and Theme)',
                 3 => 'Full (anonymized POST data)',
-            ];         
+            ];
+            
+           $thks->sensitive_keys = apply_filters('wp-reporting:sensitive-keys', [
+                '/pass/g',
+                '/mail/g',
+                '/address/g',
+            ]);         
             
             require_once __DIR__.'/settings.php';
             $this->settings = new Settings();
@@ -110,12 +117,47 @@ if(!class_exists('WPReporting\Reporting')) {
             return (isset($this->projects[$project_name]) ? $this->projects[$project_name] : null);
         }
         
-        private function wrap_data($data){
-            return json_encode($data, JSON_PRETTY_PRINT);
+        private function anonymize(array $array) : array{
+            
+            foreach($array as $key => $value){
+                if(is_array()){
+                     $array[$key] = $this->anonymize($value);
+                }
+                if(is_object()){
+                     $array[$key] = $this->anonymize((array) $value);
+                }
+                
+                // Remove sensitive data
+                foreach($this->sensitive_keys as $regex){
+                    if(preg_match($regex, $key){
+                        $array[$key] = 'xxxxxxx';
+                    }
+                }
+            }
+            return $array;  
         }
         
-        private function get_context_server(){
-            return $thks->wrap_data($server_json);
+        private function wrap_data($data) : string {
+            return (string) json_encode($data, JSON_PRETTY_PRINT);
+        }
+        
+        private function get_context_server() : string {
+            return $this->wrap_data($_SERVER);
+        }
+        
+        private function get_context_wp() : string {
+            $data = WP_Debug_Data::debug_data();
+
+            return $this->wrap_data($data);
+        }
+        
+        private function get_context_input() : string {
+            $data = [
+                'GET' => $this->anonymize($_GET);
+                'POST' => $this->anonymize($_POST);
+                'PUT' => $this->anonymize($_PUT);
+            ];
+            return $this->wrap_data($data);
         }
 
         /**
@@ -165,6 +207,14 @@ if(!class_exists('WPReporting\Reporting')) {
             // Add data for 1rst context level
             if($context_level > 0){
                 $body.="\n\nServer:\n".$this->get_context_server();
+            }
+            
+            if($context_level > 1){
+                $body.="\n\nWordPress:\n".$this->get_context_wp();                
+            }
+            
+            if($context_level > 2){
+                $body.="\n\nInput:\n".$this->get_context_input();                
             }
 
             // Send report by mail
