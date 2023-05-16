@@ -43,7 +43,7 @@ if(!class_exists('WPReporting\Reporting')) {
             }
 
             // Allows to pass base64_encode email addresses, in order to prevent from spaming by exposing them in the code
-            if(!strstr($params['to'], '@') && $params['to']!=''){
+            if($params['to'] && !strstr($params['to'], '@')){
                 $params['to'] = base64_decode($params['to']);
             }
             // Ensure email address is correct
@@ -134,6 +134,21 @@ if(!class_exists('WPReporting\Reporting')) {
             }
 
             return $mail;
+        }
+
+        public function listen(){
+            set_error_handler(function($errno, $errstr, $errfile, $errline) {
+                // error was suppressed with the @-operator
+                if (0 === error_reporting()) {
+                    return false;
+                }
+                
+                throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+            }, E_WARNING);
+        }
+
+        public function stop(){
+            restore_error_handler();
         }
     }
 }
