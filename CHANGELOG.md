@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.1.3
+
+- Test "to" parameters before parsing. Fix strstr(): Passing null to parameter #1 ($haystack) of type string is deprecated
+
 ### 1.1.2
 
 - More flexible get_project output (retro compatibility with PHP7.4)
