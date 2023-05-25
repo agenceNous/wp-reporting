@@ -47,6 +47,7 @@ If you need to catch warnings or notices
 
 \WPReporting()->stop();
 ?>
+```
 
 ## Privacy
 
