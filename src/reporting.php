@@ -153,15 +153,21 @@ if(!class_exists('WPReporting\Reporting')) {
             return $mail;
         }
 
-        public function listen(){
+        /**
+         * Start error listening
+         * Set error handler to catch errors
+         * @param $level E_WARNING
+         */
+        public function listen(string $project, $level = E_WARNING){
+            $this->set_current_project($project);
             set_error_handler(function($errno, $errstr, $errfile, $errline) {
                 // error was suppressed with the @-operator
                 if (0 === error_reporting()) {
                     return false;
                 }
                 
-                throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-            }, E_WARNING);
+                return false;
+            }, $level);
         }
 
         public function stop(){
