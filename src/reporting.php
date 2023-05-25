@@ -7,6 +7,7 @@ if(!class_exists('WPReporting\Reporting')) {
         var $projects;
         var $settings;
         var $categories;
+        var $current_project;
 
         public function __construct() {
             $this->projects = [];
@@ -80,6 +81,22 @@ if(!class_exists('WPReporting\Reporting')) {
          */
         public function get_project(string $project_name){
             return (isset($this->projects[$project_name]) ? $this->projects[$project_name] : null);
+        }
+
+        /**
+         * Get current project
+         */
+        public function get_current_project(){
+            return $this->current_project;
+        }
+
+        /**
+         * Set current project
+         * @var string $project_name
+         */
+        public function set_current_project(string $project_name){
+            $this->current_project = $project_name;
+            return $this;
         }
 
         /**
