@@ -173,6 +173,9 @@ if(!class_exists('WPReporting\Reporting')) {
             }, $level);
         }
 
+        /**
+         * Stop error listening
+         */
         public function stop(){
             restore_error_handler();
         }
