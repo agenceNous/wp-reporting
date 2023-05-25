@@ -36,6 +36,18 @@ catch(\Exception $e){ // For PHP 5
 ?>
 ```
 
+If you need to catch warnings or notices
+
+```php
+<?php
+// Add it in any function or class
+\WPReporting()->listen('project-name', E_WARNING);
+
+// Your code goes here
+
+\WPReporting()->stop();
+?>
+
 ## Privacy
 
 Email addresses can be base64 encoded. So you do not expose theme directly in source-code.

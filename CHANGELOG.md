@@ -1,5 +1,11 @@
 ## Changelog
 
+### 1.2
+
+- Add `listen()` / `stop()` method to listen to exceptions
+- Add `trace_in_logs` option
+- Add global trace of exceptions
+
 ### 1.1.3
 
 - Test "to" parameters before parsing. Fix strstr(): Passing null to parameter #1 ($haystack) of type string is deprecated
