@@ -162,7 +162,7 @@ if(!class_exists('WPReporting\Reporting')) {
             $this->set_current_project($project);
             set_error_handler(function($errno, $errstr, $errfile, $errline) {
                 // error was suppressed with the @-operator
-                if (0 === error_reporting()) {
+                if (0 === \error_reporting()) {
                     return false;
                 }
                 
