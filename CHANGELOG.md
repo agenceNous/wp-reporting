@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.3
+
+- Add `only_in_dir` option
+- Add file & line in log
+
 ### 1.2
 
 - Add `listen()` / `stop()` method to listen to exceptions
