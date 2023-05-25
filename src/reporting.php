@@ -167,5 +167,13 @@ if(!class_exists('WPReporting\Reporting')) {
         public function stop(){
             restore_error_handler();
         }
+
+        /**
+         * Get the plugin version
+         */
+        public function get_version(){
+            $composer = json_decode(file_get_contents(__DIR__.'/../composer.json'));
+            return $composer->version;
+        }
     }
 }
