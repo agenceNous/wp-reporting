@@ -137,7 +137,8 @@ if(!class_exists('WPReporting\Reporting')) {
             
             if(defined('WP_DEBUG') && WP_DEBUG){
                 if(defined('WP_DEBUG_LOG') && WP_DEBUG_LOG){
-                    error_log("[WP-Report]: {$subject}".($project['trace_in_logs'] ? "\t".json_encode($stack) : ''));
+                    $error_location = sprintf('%s:%s', $exception->getFile(), $exception->getLine());
+                    error_log("[WP-Report]: {$subject}\t{$error_location}".($project['trace_in_logs'] ? "\t".json_encode($stack) : ''));
                 }
             }
             if(!$enabled){
