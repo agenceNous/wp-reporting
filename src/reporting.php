@@ -111,7 +111,7 @@ if(!class_exists('WPReporting\Reporting')) {
             // Get project
             $project = $this->get_project($project_name);
             if(null === $project){
-                error_log(sprintf('Try to send report on unfound project: "%s"', $project_name));
+                error_log(sprintf('[WP-Report]: Try to send report on unfound project: "%s"', $project_name));
                 return false;
             }
             
