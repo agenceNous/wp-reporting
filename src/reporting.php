@@ -35,6 +35,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 'label' => $project_name,
                 'description' => null,
                 'prefix' => $project_name,
+                'only_in_dir' => null,
                 'default_enabled' => false,
                 'category' => 'main',
                 'trace_in_logs' => false,
@@ -113,6 +114,14 @@ if(!class_exists('WPReporting\Reporting')) {
             if(null === $project){
                 error_log(sprintf('[WP-Report]: Try to send report on unfound project: "%s"', $project_name));
                 return false;
+            }
+
+            if(isset($project['only_in_dir'])){
+                $error_file = $exception->getFile();
+                // Check if if file is in directory
+                if(!strstr($error_file, $project['only_in_dir'])){
+                    return false;
+                }
             }
             
             $enabled = $this->settings->get($project_name);
