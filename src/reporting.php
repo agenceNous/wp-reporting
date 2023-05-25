@@ -37,6 +37,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 'prefix' => $project_name,
                 'default_enabled' => false,
                 'category' => 'main',
+                'trace_in_logs' => false,
             ] );
 
             if(!isset($this->categories[$params['category']])){
@@ -135,7 +136,7 @@ if(!class_exists('WPReporting\Reporting')) {
             
             if(defined('WP_DEBUG') && WP_DEBUG){
                 if(defined('WP_DEBUG_LOG') && WP_DEBUG_LOG){
-                    error_log("Fatal Error ".$subject."\t".json_encode($stack));
+                    error_log("[WP-Report]: {$subject}".($project['trace_in_logs'] ? "\t".json_encode($stack) : ''));
                 }
             }
             if(!$enabled){
