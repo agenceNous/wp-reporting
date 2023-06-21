@@ -1,5 +1,11 @@
 ## Changelog
 
+### 1.4
+
+- Send logs in HTML format
+- Reduce trace stack, because too much data causes errors
+- cleanup wp-reporting from stack trace
+
 ### 1.3
 
 - Add `only_in_dir` option
