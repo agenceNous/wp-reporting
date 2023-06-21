@@ -149,8 +149,8 @@ if(!class_exists('WPReporting\Reporting')) {
             // Reduce trace, because too much data causes error
             $trace = array_slice($trace, 0, 10);
             $json = json_encode(['stack'=>$stack, 'trace'=>$trace], JSON_PRETTY_PRINT);
-            $message = \apply_filters('wp-reporting:send:message', sprintf('Error in %s', get_option('blog_name')));
-            $body = $message."\n\n".$json;
+            $message = \apply_filters('wp-reporting:send:message', '<h1>'.sprintf('Error in %s', get_option('blogname')).'</h1>'."\n".'<p>'.sprintf('<code>%s</code> in <em>%s</em> at line <strong>%s</strong>.', $exception->getMessage(), $exception->getFile(), $exception->getLine()).'</p>');
+            $body = $message."\n\n<pre>```\n".$json."\n```</pre>";
             $body = \apply_filters('wp-reporting:send:body', $body);
             
             if(defined('WP_DEBUG') && WP_DEBUG){
@@ -165,10 +165,10 @@ if(!class_exists('WPReporting\Reporting')) {
 
             // Send report by mail
             if(function_exists('wp_mail')){
-                $mail = \wp_mail($to, $subject, $body);
+                $mail = \wp_mail($to, $subject, $body, 'Content-Type: text/html; charset=UTF-8');
             }
             else{
-                $mail = mail($to, $subject, $body);
+                $mail = mail($to, $subject, $body, 'Content-Type: text/html; charset=UTF-8');
             }
 
             return $mail;
