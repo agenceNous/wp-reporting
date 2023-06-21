@@ -139,6 +139,13 @@ if(!class_exists('WPReporting\Reporting')) {
             // Get message
             $stack = apply_filters('wp-reporting:send:stack', $exception->getTrace());
             $trace = debug_backtrace();
+            // Cleanup first items if it was listened
+            if(isset($trace[0]['class']) && $trace[0]['class'] === 'WPReporting\\WP_Reporting'){
+                array_shift($trace);
+            }
+            if(isset($trace[0]['class']) && $trace[0]['class'] === 'WPReporting\\WP_Reporting'){
+                array_shift($trace);
+            }
             // Reduce trace, because too much data causes error
             $trace = array_slice($trace, 0, 10);
             $json = json_encode(['stack'=>$stack, 'trace'=>$trace], JSON_PRETTY_PRINT);
