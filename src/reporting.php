@@ -186,7 +186,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 if (0 === \error_reporting()) {
                     return false;
                 }
-                
+
                 $this->send(new \ErrorException($errstr, 0, $errno, $errfile, $errline), WPReporting()->get_current_project());
                 return false;
             }, $level);
