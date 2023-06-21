@@ -139,6 +139,8 @@ if(!class_exists('WPReporting\Reporting')) {
             // Get message
             $stack = apply_filters('wp-reporting:send:stack', $exception->getTrace());
             $trace = debug_backtrace();
+            // Reduce trace, because too much data causes error
+            $trace = array_slice($trace, 0, 10);
             $json = json_encode(['stack'=>$stack, 'trace'=>$trace], JSON_PRETTY_PRINT);
             $message = \apply_filters('wp-reporting:send:message', sprintf('Error in %s', get_option('blog_name')));
             $body = $message."\n\n".$json;
