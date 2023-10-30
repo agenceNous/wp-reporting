@@ -1,6 +1,7 @@
 <?php
 
 namespace WPReporting;
+namespace WPReporting_1_5_0;
 
 if(!class_exists('WPReporting\Reporting')) {
     class WP_Reporting{

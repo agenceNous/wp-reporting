@@ -1,6 +1,7 @@
 <?php
 
 namespace WPReporting;
+namespace WPReporting_1_5_0;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
