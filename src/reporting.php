@@ -1,4 +1,9 @@
 <?php
+/**
+ * WP Reporting
+ * @package WPReporting
+ * @version 1.5.0
+ */
 
 namespace WPReporting;
 
