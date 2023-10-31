@@ -26,7 +26,7 @@ if(!class_exists('WPReporting\Reporting')) {
             require_once __DIR__.'/settings.php';
             $this->settings = new Settings();
 
-            wp_register_script('wp-reporting', plugins_url( 'wp-reporting.js', __DIR__), array('jquery', 'wp-util'), $this->get_version());
+            wp_register_script('wp-reporting', plugins_url( 'wp-reporting.js', __FILE__), array('jquery', 'wp-util'), $this->get_version());
 
             add_action('init', array(&$this, 'init'));
             add_action('wp_ajax_wpreporting_logerror', array(&$this, 'ajax_log_error'));
