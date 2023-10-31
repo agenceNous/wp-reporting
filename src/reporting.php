@@ -20,6 +20,12 @@ if(!class_exists('WPReporting\Reporting')) {
             
             require_once __DIR__.'/settings.php';
             $this->settings = new Settings();
+
+            wp_register_script('wp-reporting', plugins_url( 'wp-reporting.js', __DIR__), array('jquery', 'wp-util'), $this->get_version());
+
+            add_action('init', array(&$this, 'init'));
+            add_action('wp_ajax_wpreporting_logerror', array(&$this, 'ajax_log_error'));
+            add_action('wp_ajax_nopriv_wpreporting_logerror', array(&$this, 'ajax_log_error'));
         }
 
         /**
@@ -39,6 +45,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 'default_enabled' => false,
                 'category' => 'main',
                 'trace_in_logs' => false,
+                'javascript' => false,
             ] );
 
             if(!isset($this->categories[$params['category']])){
@@ -58,6 +65,23 @@ if(!class_exists('WPReporting\Reporting')) {
 
             $this->projects[$project_name] = apply_filters('wp-reporting:project:register', $params, $project_name);
             return $this;
+        }
+
+        public function load_scripts(){
+            wp_enqueue_script('wp-reporting');
+            wp_localize_script('wp-reporting', 'wp_reporting', [
+                'nonce' => wp_create_nonce('wp-reporting-logerror'),
+            ]);
+        }
+        
+        public function init(){
+            foreach($this->projects as $project_name => $project){
+                if($project['javascript']){
+                    $this->load_scripts();
+                    break;
+                }
+            }
+
         }
 
         /**
@@ -105,10 +129,12 @@ if(!class_exists('WPReporting\Reporting')) {
          * Send a report
          * @param Exception $exception
          * @param string $project_name
+         * @param bool $skip_dir_check
+         * @param array $trace
          * @return bool
          */
-        public function send($exception, string $project_name) : bool {
-
+        public function send($exception, string $project_name, $skip_dir_check=false, $trace=null) : bool {
+            
             // Get project
             $project = $this->get_project($project_name);
             if(null === $project){
@@ -116,7 +142,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 return false;
             }
 
-            if(isset($project['only_in_dir'])){
+            if($skip_dir_check === false && isset($project['only_in_dir'])){
                 $error_file = $exception->getFile();
                 // Check if if file is in directory
                 if(!strstr($error_file, $project['only_in_dir'])){
@@ -138,7 +164,7 @@ if(!class_exists('WPReporting\Reporting')) {
             
             // Get message
             $stack = apply_filters('wp-reporting:send:stack', $exception->getTrace());
-            $trace = debug_backtrace();
+            $trace = $trace ? $trace : debug_backtrace();
             // Cleanup first items if it was listened
             if(isset($trace[0]['class']) && $trace[0]['class'] === 'WPReporting\\WP_Reporting'){
                 array_shift($trace);
@@ -197,6 +223,36 @@ if(!class_exists('WPReporting\Reporting')) {
          */
         public function stop(){
             restore_error_handler();
+        }
+
+        /**
+         * Log an error
+         * sent over ajax
+         */
+        public function ajax_log_error(){
+            // check nonce
+            if(!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wp-reporting-logerror')){
+                wp_send_json_error('Invalid nonce');
+                exit;
+            }
+
+            if(isset($_POST['project']) && isset($_POST['error'])){
+                $project = $_POST['project'];
+                $error = $_POST['error'];
+                if(!isset($error['message']) || !isset($error['stack']) || !isset($error['file']) || !isset($error['line'])){
+                    wp_send_json_error('Invalid error');
+                    exit;
+                }
+                $err = new \ErrorException($error['message'], 0, E_ERROR, $error['file'], $error['line']);
+                $trace = explode("\n", $error['stack']);
+                $sent = $this->send($err, $project, true, $trace);
+                if($sent){
+                    wp_send_json_success('Error sent');
+                    exit;
+                }
+                wp_send_json_error('Error not sent');
+                exit;
+            }
         }
 
         /**

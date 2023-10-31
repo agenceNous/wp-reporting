@@ -10,6 +10,8 @@ composer require agencenous/wp-reporting
 
 ## Usage
 
+### Report PHP errors
+
 ```php
 <?php
 require 'vendor/agencenous/wp-reporting/wp-reporting.php';
@@ -21,6 +23,7 @@ require 'vendor/agencenous/wp-reporting/wp-reporting.php';
     'category' => 'plugin', // plugin, theme, main
     'to' => 'bm91c0BhdmVjbm91cy5ldQ==', // email addresse, plain or BASE64 encoded (to prevent spam when source is open)
     'only_in_dir' => __DIR__, // Limit error reporting to this directory for this project
+    'javascript' => true, // Enable javascript error reporting
 ]);
 
 
@@ -48,6 +51,27 @@ If you need to catch warnings or notices
 
 \WPReporting()->stop();
 ?>
+```
+
+### Report Javascript errors
+
+```html
+<script type="text/javascript">
+try{
+    // Your code goes here
+}
+catch(err){
+    wp_reporting.log_error('project-name', err);
+}
+</script>
+```
+
+In a normal context, you can use the `wp_reporting` global variable.
+
+In case of the script is not loaded automatically, you can use the `wp_reporting` function.
+
+```php
+\WPReporting()->load_scripts();
 ```
 
 ## Privacy
