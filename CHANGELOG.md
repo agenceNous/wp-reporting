@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.5
+
+- Adds support for Javascript errors
+
 ### 1.4
 
 - Send logs in HTML format
