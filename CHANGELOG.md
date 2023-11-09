@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.5.1
+
+- Uses wp_add_inline_script instead of wp_localize_script 
+- Uses wp_register_script after wp_enqueue_scripts
+
 ### 1.5
 
 - Adds support for Javascript errors
@@ -40,4 +45,4 @@
 
 ### 1.0.0
 
-FIrst release
+First release
