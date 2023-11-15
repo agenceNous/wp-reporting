@@ -124,7 +124,7 @@ if(!class_exists('WPReporting\Settings')) {
                 $input_args[$project_name] = FILTER_SANITIZE_INT;
                 $input_args[$project_name.'_context'] = FILTER_SANITIZE_INT;
             }
-            $settings = filter_input_array(I PUT_POST, $input_args);
+            $settings = filter_input_array(INPUT_POST, $input_args);
             $update = $this->update_option(  $this->option_name, $settings);
             wp_redirect(
                 add_query_arg(
