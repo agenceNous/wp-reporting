@@ -13,6 +13,7 @@ if(!class_exists('WPReporting\Reporting')) {
         var $settings;
         var $categories;
         var $current_project;
+        var $error_types;
 
         public function __construct() {
             $this->projects = [];
@@ -23,6 +24,24 @@ if(!class_exists('WPReporting\Reporting')) {
                 'theme' => 'Themes',
             ];
 
+            // $this->error_types = [
+            //     E_ERROR => 'Error',
+            //     E_WARNING => 'Warning',
+            //     E_PARSE => 'Parsing Error',
+            //     E_NOTICE => 'Notice',
+            //     E_CORE_ERROR => 'Core Error',
+            //     E_CORE_WARNING => 'Core Warning',
+            //     E_COMPILE_ERROR => 'Compile Error',
+            //     E_COMPILE_WARNING => 'Compile Warning',
+            //     E_USER_ERROR => 'User Error',
+            //     E_USER_WARNING => 'User Warning',
+            //     E_USER_NOTICE => 'User Notice',
+            //     E_STRICT => 'Runtime Notice',
+            //     E_RECOVERABLE_ERROR => 'Catchable Fatal Error',
+            //     E_DEPRECATED => 'Deprecated',
+            //     E_USER_DEPRECATED => 'User Deprecated',
+            // ];
+            
             require_once __DIR__.'/settings.php';
             $this->settings = new Settings();
 
@@ -187,6 +206,12 @@ if(!class_exists('WPReporting\Reporting')) {
             
             if(defined('WP_DEBUG') && WP_DEBUG){
                 if(defined('WP_DEBUG_LOG') && WP_DEBUG_LOG){
+                    // $error_level = $exception->getCode();
+                    // // Get error type (notice, warning...)
+                    // $error_type = 'E_UNKNOWN';
+                    // if(isset($this->error_types[$error_level])){
+                    //     $error_type = $this->error_types[$error_level];
+                    // }
                     $error_location = sprintf('%s:%s', $exception->getFile(), $exception->getLine());
                     error_log("[WP-Report]: {$subject}\t{$error_location}".($project['trace_in_logs'] ? "\t".json_encode($stack) : ''));
                 }
