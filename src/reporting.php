@@ -239,8 +239,8 @@ if(!class_exists('WPReporting\Reporting')) {
                 }
             }
             
-            $level = $this->settings->get($project_name);
-            $context_level = $this->settings->get($project_name.'_context');
+            $enabled = $project['enabled'];
+            $context_level = $project['context_level'];
             
             
             // Get recipient
