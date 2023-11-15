@@ -175,7 +175,7 @@ if(!class_exists('WPReporting\Settings')) {
             <?php endforeach; ?>
             </div>
 
-            <div class="wp-reporting-project-context-levels">
+            <blockquote class="wp-reporting-project-context-levels">
                 <h5><?php _e('Context'); ?></h5>
             <?php foreach(\WPReporting()->get_context_levels() as $level => $label): ?>
                 <div class="wp-reporting-context-level">
@@ -186,7 +186,7 @@ if(!class_exists('WPReporting\Settings')) {
                     </label>
                 </div>
             <?php endforeach; ?>
-            </div>
+            </blockquote>
             <p>
                 <?php if (isset($args['description']) && $args['description']): ?>
                     <span class="wp-reporting-desc">
