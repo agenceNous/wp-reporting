@@ -26,18 +26,17 @@ if(!class_exists('WPReporting\Reporting')) {
                 'theme' => 'Themes',
             ];
             
-            $this->levels = [
-                0 => 'Disabled',
-                1 => 'Error',
-                2 => 'Warning',
-            ];
+            $this->levels = apply_filters('wp-reporting:levels', [
+                0 => 'No',
+                1 => 'Yes',
+            ]);
             
-            $this->context_levels = [
+            $this->context_levels = apply_filters('wp-reporting:context_levels', [
                 0 => 'No context',
                 1 => 'Minimal (server environment)',
                 2 => 'Accurate (URL + Version of WordPress, Plugins and Theme)',
                 3 => 'Full (anonymized POST data)',
-            ];
+            ]);
             
            $this->sensitive_keys = apply_filters('wp-reporting:sensitive-keys', [
                 '/pass/g',
