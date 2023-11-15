@@ -168,15 +168,16 @@ if(!class_exists('WPReporting\Reporting')) {
             return $array;  
         }
         
-        private function wrap_data($data) : string {
-            return (string) json_encode($data, JSON_PRETTY_PRINT);
+        private function wrap_data(string $title, array $data, bool $open=false) : string {
+            $data = json_encode($data, JSON_PRETTY_PRINT);
+            return "\n\n<details".($open ? "open='open'" : "")."><summary><h2>{$title}</h2></summary>\n<pre>```\n{$data}\n```</pre></details>\n\n";
         }
         
-        private function get_context_server() : string {
-            return $this->wrap_data($_SERVER);
+        private function get_context_server() : array {
+            return $_SERVER;
         }
         
-        private function get_context_wp() : string {
+        private function get_context_wp() : array {
             if ( ! function_exists( 'update' ) ) {
                 require_once ABSPATH . 'wp-admin/includes/update.php';
                 require_once ABSPATH . 'wp-admin/includes/misc.php';
@@ -186,15 +187,15 @@ if(!class_exists('WPReporting\Reporting')) {
             }
             $data = \WP_Debug_Data::debug_data();
 
-            return $this->wrap_data($data);
+            return $data;
         }
         
-        private function get_context_input() : string {
+        private function get_context_input() : array {
             $data = [
                 'GET' => $this->anonymize($_GET),
                 'POST' => $this->anonymize($_POST),
             ];
-            return $this->wrap_data($data);
+            return $data;
         }
 
         /**
@@ -261,37 +262,39 @@ if(!class_exists('WPReporting\Reporting')) {
             if(isset($trace[0]['class']) && $trace[0]['class'] === 'WPReporting\\WP_Reporting'){
                 array_shift($trace);
             }
-            // Reduce trace, because too much data causes error
-            $trace = array_slice($trace, 0, 10);
-            $json = json_encode(['stack'=>$stack, 'trace'=>$trace], JSON_PRETTY_PRINT);
-            // Remove ABSPATH from trace
-            $json = str_replace(ABSPATH, '', $json);
-            $message = \apply_filters('wp-reporting:send:message', '<h1>'.sprintf('Error in %s', get_option('blogname')).'</h1>'."\n".'<p>'.sprintf('<code>%s</code> in <em>%s</em> at line <strong>%s</strong>.', $exception->getMessage(), $exception->getFile(), $exception->getLine()).'</p>');
-            $body = $message."\n\n<pre>```\n".$json."\n```</pre>";
-            $body = \apply_filters('wp-reporting:send:body', $body);
-            
+
             if(defined('WP_DEBUG') && WP_DEBUG){
                 if(defined('WP_DEBUG_LOG') && WP_DEBUG_LOG){
                     $error_location = sprintf('%s:%s', $exception->getFile(), $exception->getLine());
                     error_log("[WP-Report]: {$subject}\t{$error_location}".($project['trace_in_logs'] ? "\t".json_encode($stack) : ''));
                 }
             }
-            if(!$level){
+            if(!$enabled){
                 return false;
             }
+
+            $message = \apply_filters('wp-reporting:send:message', '<h1>'.sprintf('Error in %s', get_option('blogname')).'</h1>'."\n".'<p>'.sprintf('<code>%s</code> in <em>%s</em> at line <strong>%s</strong>.', $exception->getMessage(), $exception->getFile(), $exception->getLine()).'</p>');
+            $body = $message;
+            $body.=str_replace(ABSPATH, '', $this->wrap_data("Stack", $stack, true));
             
             // Add data for 1rst context level
             if($context_level > 0){
-                $body.="\n\nServer:\n".$this->get_context_server();
+                $body.=$this->wrap_data("Server", $this->get_context_server());
             }
             
             if($context_level > 1){
-                $body.="\n\nWordPress:\n".$this->get_context_wp();                
+                $body.=$this->wrap_data("WordPress", $this->get_context_wp());                
             }
             
             if($context_level > 2){
-                $body.="\n\nInput:\n".$this->get_context_input();                
+                $body.=$this->wrap_data("Input", $this->get_context_input());
             }
+            
+            // Reduce trace, because too much data causes error
+            $trace = array_slice($trace, 0, 10);
+            $body.=str_replace(ABSPATH, '', $this->wrap_data("Trace", $trace));
+
+            $body = \apply_filters('wp-reporting:send:body', $body, $exception, $project);
 
             // Send report by mail
             if(function_exists('wp_mail')){
