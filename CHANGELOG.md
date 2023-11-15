@@ -1,5 +1,35 @@
 ## Changelog
 
+### 1.5.1
+
+- Uses wp_add_inline_script instead of wp_localize_script 
+- Uses wp_register_script after wp_enqueue_scripts
+
+### 1.5
+
+- Adds support for Javascript errors
+
+### 1.4
+
+- Send logs in HTML format
+- Reduce trace stack, because too much data causes errors
+- cleanup wp-reporting from stack trace
+
+### 1.3
+
+- Add `only_in_dir` option
+- Add file & line in log
+
+### 1.2
+
+- Add `listen()` / `stop()` method to listen to exceptions
+- Add `trace_in_logs` option
+- Add global trace of exceptions
+
+### 1.1.3
+
+- Test "to" parameters before parsing. Fix strstr(): Passing null to parameter #1 ($haystack) of type string is deprecated
+
 ### 1.1.2
 
 - More flexible get_project output (retro compatibility with PHP7.4)
@@ -15,4 +45,4 @@
 
 ### 1.0.0
 
-FIrst release
+First release
