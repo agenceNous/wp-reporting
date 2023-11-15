@@ -151,10 +151,10 @@ if(!class_exists('WPReporting\Reporting')) {
         private function anonymize(array $array) : array{
             
             foreach($array as $key => $value){
-                if(is_array()){
+                if(is_array($value)){
                      $array[$key] = $this->anonymize($value);
                 }
-                if(is_object()){
+                elseif(is_object($value)){
                      $array[$key] = $this->anonymize((array) $value);
                 }
                 
