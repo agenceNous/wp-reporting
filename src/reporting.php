@@ -177,7 +177,14 @@ if(!class_exists('WPReporting\Reporting')) {
         }
         
         private function get_context_wp() : string {
-            $data = WP_Debug_Data::debug_data();
+            if ( ! function_exists( 'update' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/update.php';
+                require_once ABSPATH . 'wp-admin/includes/misc.php';
+            }
+            if ( ! class_exists( 'WP_Debug_Data' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
+            }
+            $data = \WP_Debug_Data::debug_data();
 
             return $this->wrap_data($data);
         }
