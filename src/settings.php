@@ -53,8 +53,8 @@ if(!class_exists('WPReporting\Settings')) {
             return $this->options;
         }
 
-        public function Get($setting){
-            return (isset($this->Options()[$setting]) ? $this->Options()[$setting] : false);
+        public function Get($setting, $default=false){
+            return (isset($this->Options()[$setting]) ? $this->Options()[$setting] : $default);
         }
 
         public function admin_menu() {
