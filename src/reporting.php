@@ -12,10 +12,10 @@ if(!class_exists('WPReporting\Reporting')) {
         var $projects;
         var $settings;
         var $categories;
-        var $levels;
-        var $context_levels;
-        var $sensitive_keys;
-        var $current_project;
+        private $levels;
+        private $context_levels;
+        private $sensitive_keys;
+        private $current_project;
 
         public function __construct() {
             $this->projects = [];
