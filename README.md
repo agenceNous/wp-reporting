@@ -83,7 +83,7 @@ Emails are sent using the `wp_mail()` function.
 Calling `WPReporting()` will automatically add a setting page in the Wordpress dashboard to let admin enable/disable error reporting for each registered project.  
 Reports will only be sent if the admin has enabled it.
 
-## Morehover
+## Moreover
 
 Enable settings on network in a multisite context.
 
