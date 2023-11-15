@@ -1,5 +1,13 @@
 ## Changelog
 
+### 1.6
+
+- Add options to add context per project
+- Remove ABSPATH from trace
+- Wrap data in readable blocks
+- Make properties private
+- Allows to pass default value to settings::Get
+
 ### 1.5.1
 
 - Uses wp_add_inline_script instead of wp_localize_script 
