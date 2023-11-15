@@ -193,7 +193,6 @@ if(!class_exists('WPReporting\Reporting')) {
             $data = [
                 'GET' => $this->anonymize($_GET),
                 'POST' => $this->anonymize($_POST),
-                'PUT' => $this->anonymize($_PUT),
             ];
             return $this->wrap_data($data);
         }
