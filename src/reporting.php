@@ -264,6 +264,8 @@ if(!class_exists('WPReporting\Reporting')) {
             // Reduce trace, because too much data causes error
             $trace = array_slice($trace, 0, 10);
             $json = json_encode(['stack'=>$stack, 'trace'=>$trace], JSON_PRETTY_PRINT);
+            // Remove ABSPATH from trace
+            $json = str_replace(ABSPATH, '', $json);
             $message = \apply_filters('wp-reporting:send:message', '<h1>'.sprintf('Error in %s', get_option('blogname')).'</h1>'."\n".'<p>'.sprintf('<code>%s</code> in <em>%s</em> at line <strong>%s</strong>.', $exception->getMessage(), $exception->getFile(), $exception->getLine()).'</p>');
             $body = $message."\n\n<pre>```\n".$json."\n```</pre>";
             $body = \apply_filters('wp-reporting:send:body', $body);
