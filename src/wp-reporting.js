@@ -24,3 +24,22 @@ wp_reporting.log_error = function (project, err){
     });
 
 };
+
+wp_reporting.setting_refresh = function (e){
+    jQuery('.wp-reporting-level input[type=radio]:checked').each(function(){
+        var val = jQuery(this).val();
+        if(val == 0){
+            jQuery('.wp-reporting-project-context-levels', jQuery(this).parents('.wp-reporting-project')).hide(100);
+        }
+        else{
+            jQuery('.wp-reporting-project-context-levels', jQuery(this).parents('.wp-reporting-project')).show(100);
+        }
+    });
+}
+
+jQuery(document).ready(function () {
+    if (jQuery('.wp-reporting-project').length){
+        jQuery('.wp-reporting-level input[type=radio]').on('change', wp_reporting.setting_refresh);
+        wp_reporting.setting_refresh();
+    }
+});

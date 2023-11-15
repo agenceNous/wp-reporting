@@ -2,7 +2,7 @@
 /**
  * WP Reporting
  * @package WPReporting
- * @version 1.5.0
+ * @version 1.6.0
  */
 
 namespace WPReporting;
@@ -53,8 +53,8 @@ if(!class_exists('WPReporting\Settings')) {
             return $this->options;
         }
 
-        public function Get($setting){
-            return (isset($this->Options()[$setting]) ? $this->Options()[$setting] : false);
+        public function Get($setting, $default=false){
+            return (isset($this->Options()[$setting]) ? $this->Options()[$setting] : $default);
         }
 
         public function admin_menu() {
@@ -119,10 +119,12 @@ if(!class_exists('WPReporting\Settings')) {
             if (!wp_verify_nonce(\filter_input(INPUT_POST, 'wp-reporting-settings'), 'wp-reporting-settings')) {
                 wp_die(__('Sorry, you are not allowed to do that.'));
             }
-            $settings = [];
+            $input_args = [];
             foreach(WPReporting()->get_projects() as $project_name => $project){
-                $settings[$project_name] = (isset($_POST[$this->option_name][$project_name]) && $_POST[$this->option_name][$project_name] == 1 ? true : false);
+                $input_args[$project_name] = FILTER_SANITIZE_INT;
+                $input_args[$project_name.'_context'] = FILTER_SANITIZE_INT;
             }
+            $settings = filter_input_array(INPUT_POST, $input_args);
             $update = $this->update_option(  $this->option_name, $settings);
             wp_redirect(
                 add_query_arg(
@@ -159,15 +161,32 @@ if(!class_exists('WPReporting\Settings')) {
 
         public function settings_field_enable_callback($args) {
             ?>
-            <div>
-            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-0" value="0" <?php checked( $this->Get($args['name']), 0); ?>/>
-            <label for="<?php esc_attr_e($args['name']); ?>-0">
-                <?php _e('No'); ?>
-            </label>
-            <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-1" value="1" <?php checked( $this->Get($args['name']), 1); ?>/>
-            <label for="<?php esc_attr_e($args['name']); ?>-1">
-                <?php _e('Yes'); ?>
-            </label>
+        <div class="wp-reporting-project">
+            
+            <div class="wp-reporting-project-levels">
+            <?php foreach(\WPReporting()->get_levels() as $level => $label): ?>
+                <div class="wp-reporting-level">
+            <?php $level = (int) $level; ?>
+                    <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $args['enabled'], $level); ?>/>
+                    <label for="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>">
+                        <?php _e($label); ?>
+                    </label>
+                </div>
+            <?php endforeach; ?>
+            </div>
+
+            <blockquote class="wp-reporting-project-context-levels">
+                <h5><?php _e('Context'); ?></h5>
+            <?php foreach(\WPReporting()->get_context_levels() as $level => $label): ?>
+                <div class="wp-reporting-context-level">
+            <?php $level = (int) $level; ?>
+                    <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>_context]" id="<?php esc_attr_e($args['name']); ?>-context-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $args['context_level'], $level); ?>/>
+                    <label for="<?php esc_attr_e($args['name']); ?>-context-<?php esc_attr_e($level); ?>">
+                        <?php _e($label); ?>
+                    </label>
+                </div>
+            <?php endforeach; ?>
+            </blockquote>
             <p>
                 <?php if (isset($args['description']) && $args['description']): ?>
                     <span class="wp-reporting-desc">
@@ -179,7 +198,7 @@ if(!class_exists('WPReporting\Settings')) {
                   <?php esc_html_e($args['to']); ?>
                 </div>
             </p>
-            </div>
+        </div>
             <?php
         }
     }
