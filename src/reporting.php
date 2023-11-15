@@ -39,9 +39,9 @@ if(!class_exists('WPReporting\Reporting')) {
             ]);
             
            $this->sensitive_keys = apply_filters('wp-reporting:sensitive-keys', [
-                '/pass/g',
-                '/mail/g',
-                '/address/g',
+                '/pass/',
+                '/mail/',
+                '/address/',
             ]);         
             
 
