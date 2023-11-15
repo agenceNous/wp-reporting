@@ -33,7 +33,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 3 => 'Full (anonymized POST data)',
             ];
             
-           $thks->sensitive_keys = apply_filters('wp-reporting:sensitive-keys', [
+           $this->sensitive_keys = apply_filters('wp-reporting:sensitive-keys', [
                 '/pass/g',
                 '/mail/g',
                 '/address/g',
@@ -129,7 +129,7 @@ if(!class_exists('WPReporting\Reporting')) {
                 
                 // Remove sensitive data
                 foreach($this->sensitive_keys as $regex){
-                    if(preg_match($regex, $key){
+                    if(preg_match($regex, $key)){
                         $array[$key] = 'xxxxxxx';
                     }
                 }
@@ -153,9 +153,9 @@ if(!class_exists('WPReporting\Reporting')) {
         
         private function get_context_input() : string {
             $data = [
-                'GET' => $this->anonymize($_GET);
-                'POST' => $this->anonymize($_POST);
-                'PUT' => $this->anonymize($_PUT);
+                'GET' => $this->anonymize($_GET),
+                'POST' => $this->anonymize($_POST),
+                'PUT' => $this->anonymize($_PUT),
             ];
             return $this->wrap_data($data);
         }
@@ -200,7 +200,7 @@ if(!class_exists('WPReporting\Reporting')) {
                     error_log("Fatal Error ".$subject."\t".json_encode($stack));
                 }
             }
-            if(!$level{
+            if(!$level){
                 return false;
             }
             
