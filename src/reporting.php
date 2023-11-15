@@ -87,11 +87,9 @@ if(!class_exists('WPReporting\Reporting')) {
                 $params['to'] = get_option('admin_email');
             }
 
-            $params['enabled'] = $this->settings->Get($project_name);
+            $params['enabled'] = $this->settings->Get($project_name, $params['default_enabled']);
             
-            $params['levels'] = array_slice($this->get_levels(), 0, $params['max_level']);
-            
-            $params['context_levels'] = $this->get_context_levels();
+            $params['context_level'] = $this->settings->Get("{$project_name}_context", array_keys($this->context_levels)[0]);
 
             $this->projects[$project_name] = apply_filters('wp-reporting:project:register', $params, $project_name);
             return $this;
