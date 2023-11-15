@@ -164,23 +164,25 @@ if(!class_exists('WPReporting\Settings')) {
         <div class="wp-reporting-project">
             
             <div class="wp-reporting-project-levels">
-            <?php foreach($args['levels'] as $level => $label): ?>
+            <?php foreach(\WPReporting()->get_levels() as $level => $label): ?>
                 <div class="wp-reporting-level">
             <?php $level = (int) $level; ?>
-                    <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $this->Get($args['name']), $level); ?>/>
+                    <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>]" id="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $args['enabled'], $level); ?>/>
                     <label for="<?php esc_attr_e($args['name']); ?>-<?php esc_attr_e($level); ?>">
-                        <?php echo $label; ?>
+                        <?php _e($label); ?>
                     </label>
                 </div>
             <?php endforeach; ?>
             </div>
+
             <div class="wp-reporting-project-context-levels">
-            <?php foreach($args['context_levels'] as $level => $label): ?>
+                <h5><?php _e('Context'); ?></h5>
+            <?php foreach(\WPReporting()->get_context_levels() as $level => $label): ?>
                 <div class="wp-reporting-context-level">
             <?php $level = (int) $level; ?>
-                    <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>_context]" id="<?php esc_attr_e($args['name']); ?>-context-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $this->Get($args['name'].'_context'), $level); ?>/>
+                    <input type="radio" name="<?php esc_attr_e($this->option_name); ?>[<?php esc_attr_e($args['name']); ?>_context]" id="<?php esc_attr_e($args['name']); ?>-context-<?php esc_attr_e($level); ?>" value="<?php esc_attr_e($level); ?>" <?php checked( $args['context_level'], $level); ?>/>
                     <label for="<?php esc_attr_e($args['name']); ?>-context-<?php esc_attr_e($level); ?>">
-                        <?php echo $label; ?>
+                        <?php _e($label); ?>
                     </label>
                 </div>
             <?php endforeach; ?>
