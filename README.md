@@ -14,18 +14,20 @@ composer require agencenous/wp-reporting
 
 ```php
 <?php
-require 'vendor/agencenous/wp-reporting/wp-reporting.php';
 
-// Register each project
-\WPReporting()->register('project-name', [
-    'label' => 'Project name', // translate it with __('Project name', 'project-textdomain')
-    'description' => 'Send logs by emails', // translate it with __('Description', 'project-textdomain')
-    'category' => 'plugin', // plugin, theme, main
-    'to' => 'bm91c0BhdmVjbm91cy5ldQ==', // email addresse, plain or BASE64 encoded (to prevent spam when source is open)
-    'only_in_dir' => __DIR__, // Limit error reporting to this directory for this project
-    'javascript' => true, // Enable javascript error reporting
-]);
+add_action ('plugins_loaded', function(){
+    require 'vendor/agencenous/wp-reporting/wp-reporting.php';
 
+    // Register each project
+    \WPReporting()->register('project-name', [
+        'label' => 'Project name', // translate it with __('Project name', 'project-textdomain')
+        'description' => 'Send logs by emails', // translate it with __('Description', 'project-textdomain')
+        'category' => 'plugin', // plugin, theme, main
+        'to' => 'bm91c0BhdmVjbm91cy5ldQ==', // email addresse, plain or BASE64 encoded (to prevent spam when source is open)
+        'only_in_dir' => __DIR__, // Limit error reporting to this directory for this project
+        'javascript' => true, // Enable javascript error reporting
+    ]);
+});
 
 // Add it in any function or class
 try{
