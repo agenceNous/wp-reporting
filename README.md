@@ -16,7 +16,7 @@ composer require agencenous/wp-reporting
 <?php
 
 add_action ('plugins_loaded', function(){
-    require 'vendor/agencenous/wp-reporting/wp-reporting.php';
+    require 'vendor/agencenous/wp-reporting/src/wp-reporting.php';
 
     // Register each project
     \WPReporting()->register('project-name', [
