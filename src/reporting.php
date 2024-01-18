@@ -170,7 +170,7 @@ if(!class_exists('WPReporting\Reporting')) {
         
         private function wrap_data(string $title, array $data, bool $open=false) : string {
             $data = json_encode($data, JSON_PRETTY_PRINT);
-            return "\n\n<details".($open ? "open='open'" : "")."><summary><h2>{$title}</h2></summary>\n<pre>```\n{$data}\n```</pre></details>\n\n";
+            return "\n\n<details".($open ? " open='open'" : "")."><summary><h2>{$title}</h2></summary>\n<pre>```json\n{$data}\n```</pre></details>\n\n";
         }
         
         private function get_context_server() : array {
