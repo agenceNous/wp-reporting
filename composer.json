@@ -14,9 +14,9 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.8",
         "suin/phpcs-psr4-sniff": "^3.0",
-        "wp-coding-standards/wpcs": "^3.0"
+        "wp-coding-standards/wpcs": "^3.0",
+        "agencenous/bump-version": "dev-main"
     },
-    "require": {},
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
