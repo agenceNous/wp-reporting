@@ -140,6 +140,16 @@ if(!class_exists('WPReporting\Settings')) {
 
         public function manage_settings() {
             ?>
+            <style>
+                .wp-reporting-project{
+                    padding: 1rem;
+                }
+                .wp-reporting-unset{
+                    background-color: #f2dede;
+                    border-color: #ebccd1;
+                    color: #a94442;
+                }
+            </style>
             <div class="wrap">
                 <h1>
                     <?php _e('Error Report'); ?>
@@ -161,8 +171,9 @@ if(!class_exists('WPReporting\Settings')) {
         }
 
         public function settings_field_enable_callback($args) {
+            $is_set = $this->Get($args['name']);
             ?>
-        <div class="wp-reporting-project">
+        <div class="wp-reporting-project wp-reporting-<?php echo esc_attr($is_set ? 'set' : 'unset'); ?>">
             
             <div class="wp-reporting-project-levels">
             <?php foreach(\WPReporting()->get_levels() as $level => $label): ?>
