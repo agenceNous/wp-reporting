@@ -99,7 +99,7 @@ if(!\class_exists('WPReporting\Reporting')) {
         }
 
         public function load_scripts(){
-            wp_register_script('wp-reporting', plugins_url( 'wp-reporting.js', __FILE__), array('jquery', 'wp-util'), $this->get_version());
+            wp_register_script('wp-reporting', plugins_url( 'wp-reporting.js', __DIR__), array('jquery', 'wp-util'), $this->get_version());
             wp_enqueue_script('wp-reporting');
             wp_add_inline_script('wp-reporting', 'var wp_reporting='.json_encode(
                 [
