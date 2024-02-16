@@ -104,7 +104,7 @@ if(!class_exists('WPReporting\Settings')) {
             if(count($this->not_set_projects)){
                 echo '<div class="notice notice-warning is-dismissible">
                     <p>'.__( 'Missing settings, please tell us if you agree to send reports.').'</p>
-                    <p><a href="'.$this->setting_url.'">'.__('Settings').'</a></p>
+                    <p><a href="'.esc_url($this->setting_url).'">'.__('Settings').'</a></p>
                 </div>';
             }
         }
