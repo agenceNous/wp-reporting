@@ -3,7 +3,7 @@
     "description": "Utility for sending log reports in Wordpress themes & plugins",
     "type": "wordpress-package",
     "license": "GPL-3.0-or-later",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "minimum-stability": "dev",
     "authors": [
         {
@@ -11,5 +11,15 @@
             "email": "bastien@avecnous.eu"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.8",
+        "suin/phpcs-psr4-sniff": "^3.0",
+        "wp-coding-standards/wpcs": "^3.0"
+    },
+    "require": {},
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
 }
