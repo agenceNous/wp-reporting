@@ -1,6 +1,12 @@
 ## Changelog
 
-### 1.6
+### 1.7.0
+
+- Hilight new projects in the settings page
+- Refactor files structure according to PSR2
+- Fix error when js script is loaded too soon
+
+### 1.6.0
 
 - Add options to add context per project
 - Remove ABSPATH from trace
@@ -13,22 +19,22 @@
 - Uses wp_add_inline_script instead of wp_localize_script 
 - Uses wp_register_script after wp_enqueue_scripts
 
-### 1.5
+### 1.5.0
 
 - Adds support for Javascript errors
 
-### 1.4
+### 1.4.0
 
 - Send logs in HTML format
 - Reduce trace stack, because too much data causes errors
 - cleanup wp-reporting from stack trace
 
-### 1.3
+### 1.3.0
 
 - Add `only_in_dir` option
 - Add file & line in log
 
-### 1.2
+### 1.2.0
 
 - Add `listen()` / `stop()` method to listen to exceptions
 - Add `trace_in_logs` option
