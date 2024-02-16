@@ -1,3 +1,9 @@
+/**
+ * WP Reporting
+ *
+ * @package WPReporting
+ * @version 1.7.0
+ */
 
 var wp_reporting = wp_reporting || {};
 
