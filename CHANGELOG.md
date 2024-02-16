@@ -2,9 +2,9 @@
 
 ### 1.7.0
 
-- Hilight new projects in the settings page
+- Highlight new projects in the settings page
 - Refactor files structure according to PSR2
-- Fix error when js script is loaded too soon
+- Fix error when JS script is loaded too soon
 
 ### 1.6.0
 
