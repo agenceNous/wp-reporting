@@ -377,7 +377,7 @@ if(!\class_exists('WPReporting\Reporting')) {
          * Get the plugin version
          */
         public function get_version(){
-            $composer = json_decode(file_get_contents(__DIR__.'/../composer.json'));
+            $composer = json_decode(file_get_contents(__DIR__.'/../../composer.json'));
             return $composer->version;
         }
     }
