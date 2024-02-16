@@ -141,10 +141,10 @@ if(!class_exists('WPReporting\Settings')) {
         public function manage_settings() {
             ?>
             <div class="wrap">
-                <h2>
+                <h1>
                     <?php _e('Error Report'); ?>
-                    <small><?php echo WPReporting()->get_version(); ?></small>
-                </h2>
+                </h1>
+                <small><?php _e('Version:'); ?><?php echo WPReporting()->get_version(); ?></small>
                 <form action="<?php echo admin_url($this->mu ? 'admin-post.php' : 'options.php'); ?>" method="post">
                     <input type="hidden" name="<?php esc_attr_e($this->option_name); ?>[_setting]" value="1" />
                     <?php wp_nonce_field('wp-reporting-settings', 'wp-reporting-settings'); ?>
