@@ -18,6 +18,8 @@ if(!\class_exists('WPReporting\Reporting')) {
         private $sensitive_keys;
         private $current_project;
 
+        private $script_loaded = false;
+
         public function __construct() {
             $this->projects = [];
 
@@ -99,6 +101,11 @@ if(!\class_exists('WPReporting\Reporting')) {
         }
 
         public function load_scripts(){
+            if(!$this->script_loaded) {
+                add_action('wp_enqueue_scripts', array(&$this, 'load_scripts'));
+                $this->script_loaded = true;
+                return;
+            }
             wp_register_script('wp-reporting', plugins_url( 'wp-reporting.js', __DIR__), array('jquery', 'wp-util'), $this->get_version());
             wp_enqueue_script('wp-reporting');
             wp_add_inline_script('wp-reporting', 'var wp_reporting='.json_encode(
@@ -109,6 +116,7 @@ if(!\class_exists('WPReporting\Reporting')) {
         }
         
         public function wp_enqueue_scripts(){
+            $this->script_loaded = true;
             foreach($this->projects as $project_name => $project){
                 if($project['javascript']){
                     $this->load_scripts();
