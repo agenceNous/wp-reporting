@@ -7,7 +7,7 @@ if (function_exists('add_action') && !function_exists('WPReporting')) {
     function WPReporting(){
         global $WPReporting;
         if(!$WPReporting){
-            require_once __DIR__.'/reporting.php';
+            require_once __DIR__.'/WPReporting/Reporting.php';
             $WPReporting = new \WPReporting\WP_Reporting();
         }
         return $WPReporting;

@@ -1,14 +1,15 @@
 <?php
 /**
  * WP Reporting
+ * 
  * @package WPReporting
  * @version 1.6.0
  */
 
 namespace WPReporting;
 
-if(!class_exists('WPReporting\Reporting')) {
-    class WP_Reporting{
+if(!\class_exists('WPReporting\Reporting')) {
+    class Reporting{
         var $projects;
         var $settings;
         var $categories;
@@ -45,7 +46,7 @@ if(!class_exists('WPReporting\Reporting')) {
             ]);         
             
 
-            require_once __DIR__.'/settings.php';
+            require_once __DIR__.'/Settings.php';
             $this->settings = new Settings();
 
             add_action('wp_enqueue_scripts', array(&$this, 'wp_enqueue_scripts'));
@@ -55,11 +56,13 @@ if(!class_exists('WPReporting\Reporting')) {
 
         /**
          * Register a project
+         * 
          * @param string $project_name
          * @param array $params
+         * 
          * @return WP_Reporting
          */
-        public function register(string $project_name, array $params) : WP_Reporting{
+        public function register(string $project_name, array $params) : Reporting{
             $params = wp_parse_args( $params, [
                 'to' => null,
                 'name' => $project_name,
@@ -117,6 +120,7 @@ if(!class_exists('WPReporting\Reporting')) {
 
         /**
          * Get all categories
+         * 
          * @return array
          */
         public function get_categories() : array {
@@ -133,6 +137,7 @@ if(!class_exists('WPReporting\Reporting')) {
         
         /**
          * Get all projects
+         * 
          * @return array
          */
         public function get_projects() : array {
@@ -141,7 +146,9 @@ if(!class_exists('WPReporting\Reporting')) {
 
         /**
          * Get a project
+         * 
          * @param string $project_name
+         * 
          * @return array|null
          */
         public function get_project(string $project_name){
@@ -207,6 +214,7 @@ if(!class_exists('WPReporting\Reporting')) {
 
         /**
          * Set current project
+         * 
          * @var string $project_name
          */
         public function set_current_project(string $project_name){
@@ -216,10 +224,12 @@ if(!class_exists('WPReporting\Reporting')) {
 
         /**
          * Send a report
+         * 
          * @param Exception $exception
          * @param string $project_name
          * @param bool $skip_dir_check
          * @param array $trace
+         * 
          * @return bool
          */
         public function send($exception, string $project_name, $skip_dir_check=false, $trace=null) : bool {
@@ -310,6 +320,7 @@ if(!class_exists('WPReporting\Reporting')) {
         /**
          * Start error listening
          * Set error handler to catch errors
+         * 
          * @param $level E_WARNING
          */
         public function listen(string $project, $level = E_WARNING){

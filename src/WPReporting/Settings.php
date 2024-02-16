@@ -1,6 +1,7 @@
 <?php
 /**
  * WP Reporting
+ * 
  * @package WPReporting
  * @version 1.6.0
  */
