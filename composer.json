@@ -16,6 +16,9 @@
             "src/wp-reporting.php"
         ]
     },
+    "bin": [
+        "wp-reporting-encode-email"
+    ],
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.8",
         "suin/phpcs-psr4-sniff": "^3.0",

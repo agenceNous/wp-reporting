@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+/**
+ * Base64 encoder for WP Reporting
+ *
+ * @package WPReporting
+ * @version 1.7.0
+ */
+
+ // Get email address in parameter and base64 encode it
+$email = $argv[1] ?? null;
+
+// check if email is provided
+if (!$email) {
+    echo "Please provide an email address\n";
+    exit;
+}
+
+// check if email is valid
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "Invalid email address\n";
+    exit;
+}
+
+$encoded = base64_encode($email);
+
+echo "
+Encoded email: $encoded
+
+Use it like this:
+
+\WPReporting()->register('project-name', [
+    'to' => '{$encoded}',
+]);
+
+";
