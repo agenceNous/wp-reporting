@@ -1,5 +1,10 @@
 ## Changelog
 
+### 1.8.0
+
+- Adds autoload declaration
+- Adds `wp-reporting-encode-email` bin command
+
 ### 1.7.0
 
 - Highlight new projects in the settings page

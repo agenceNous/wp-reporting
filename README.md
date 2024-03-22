@@ -16,7 +16,7 @@ composer require agencenous/wp-reporting
 <?php
 
 add_action ('plugins_loaded', function(){
-    require 'vendor/agencenous/wp-reporting/src/wp-reporting.php';
+    require 'vendor/autoload.php';
 
     // Register each project
     \WPReporting()->register('project-name', [
@@ -84,6 +84,12 @@ Emails are sent using the `wp_mail()` function.
 
 Calling `WPReporting()` will automatically add a setting page in the Wordpress dashboard to let admin enable/disable error reporting for each registered project.  
 Reports will only be sent if the admin has enabled it.
+
+after installing wp-reporting, you can use the bin command to encode an email address:
+    
+```bash
+vendor/bin/wp-reporting-encode-email xxxxx@xx.xx
+```
 
 ## Moreover
 
