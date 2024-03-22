@@ -23,6 +23,10 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
+// Get projectname from local composer.json
+$composer = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
+$projectname = !empty($composer['name']) ? basename($composer['name']) : 'project-name';
+
 $encoded = base64_encode($email);
 
 echo "
@@ -30,7 +34,7 @@ Encoded email: $encoded
 
 Use it like this:
 
-\WPReporting()->register('project-name', [
+\WPReporting()->register('{$projectname}', [
     'to' => '{$encoded}',
 ]);
 
