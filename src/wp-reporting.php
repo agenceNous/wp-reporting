@@ -3,11 +3,9 @@
  * WP Reporting
  *
  * @package WPReporting
- * @version 1.8.0
+ * @version 1.8.1
  */
 
-
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if (function_exists('add_action') && !function_exists('WPReporting')) {
 
