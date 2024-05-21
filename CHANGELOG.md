@@ -1,5 +1,9 @@
 ## Changelog
 
+### 1.8.1
+
+- Removes an exit if not in WP context
+
 ### 1.8.0
 
 - Adds autoload declaration
